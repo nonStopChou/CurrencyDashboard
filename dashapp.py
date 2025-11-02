@@ -7,7 +7,7 @@ from src.currency.visualization.components.px_bar import bar_chart
 from src.currency.visualization.components.px_heatmap import heatmap
 from src.currency.visualization.dashboard import dashboard
 
-DROPDOWN_MENU_LIST = ['TWD', 'JPY', 'USD']
+DROPDOWN_MENU_LIST = ['TWD', 'JPY', 'USD', 'EUR', 'AUD']
 
 def trend_chart(df: pd.DataFrame, **kwargs):
     return line_chart(df, melt = True, **kwargs)

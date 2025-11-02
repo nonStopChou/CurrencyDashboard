@@ -27,4 +27,3 @@ INDEX_COLUMN = "timestamp"
 BASE_COLUMNS = ['base_currency']
 TARGET_CURRENCY = "USD"
 TARGET_CURRENCY_LIST = ["USD","EUR","JPY","GBP","CNY","AUD","CAD","CHF","HKD","SGD","SEK","KWR","NOK","NZD","INR","MXN","TWD","ZAR","BRL","DKK","PLN","THB","ILS","IDR","CZK","AED","TRY","HUF","CLP","SAR","PHP","MYR","COP","RUB","RON","PEN","BHD","BGN","ARS"]
-
