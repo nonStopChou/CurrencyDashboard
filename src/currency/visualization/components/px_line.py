@@ -22,6 +22,8 @@ def line_chart(
         transformed_part = method_apply(df.drop(columns=[index_column]))
         target_df = pd.concat([target_df[[index_column]], transformed_part], axis=1)
 
+    target_df[index_column] = pd.to_datetime(target_df[index_column], unit='s')
+
     var_name = figure_params.get("var_name", "currency")
     value_name = figure_params.get("value_name", "daily_return")
     title = figure_params.get("title", f"{var_name.capitalize()} Trend Chart")
