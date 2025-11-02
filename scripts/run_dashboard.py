@@ -2,13 +2,13 @@ import pandas as pd
 import argparse
 import numpy as np
 from src.currency.visualization.components.px_line import line_chart
-from src.currency.visualization.components.bar import bar
+from src.currency.visualization.components.px_bar import bar_chart
 from src.currency.visualization.components.px_heatmap import heatmap
 from src.currency.visualization.dashboard import dashboard
 
 from src.currency.config.config import (
     BASE_DIR,
-    DATASET_DIR,
+    PROCCESS_DIR,
     TARGET_CURRENCY
 )
 
@@ -31,7 +31,7 @@ def daily_return_chart(df: pd.DataFrame, **kwargs):
 
 def volatility_barchart(df: pd.DataFrame, **kwargs):
     apply = lambda df : np.round(df.pct_change().std().sort_values(ascending=False) * 100, 4)
-    return bar(df, method_apply = apply, **kwargs)
+    return bar_chart(df, method_apply = apply, **kwargs)
 
 
 def correlation_heatmap(df: pd.DataFrame, **kwargs):
@@ -50,7 +50,7 @@ def main():
     base_currency = args.base_currency.upper()
 
     file_name = args.dataset if args.dataset.endswith(".xlsx") else f"{args.dataset}.xlsx"
-    file_path = f"./{BASE_DIR}/{DATASET_DIR}/{base_currency}/{file_name}"
+    file_path = f"./{BASE_DIR}/{PROCCESS_DIR}/{base_currency}/{file_name}"
 
     main_df = load_excel(file_path)
     if main_df is None:
@@ -58,12 +58,12 @@ def main():
         return 
 
     target_currency_list = ["EUR","JPY","CNY","AUD","CAD","HKD","KWR", "TWD"]
-    target_currency_list = [c for c in target_currency_list if c in main_df.columns]
+    target_currency_list = [c for c in target_currency_list if c in main_df.columns and c != base_currency]
     target_df_with_index = main_df[['timestamp'] + target_currency_list]
     target_df_without_index = main_df[target_currency_list]
     
     fig1 = trend_chart(target_df_with_index, title = "First Chart", showlegend = True)
-    fig2 = volatility_barchart(target_df_with_index, title = "Second Chart", showlegend = False)
+    fig2 = volatility_barchart(target_df_without_index, title = "Second Chart", showlegend = False)
     fig3 = daily_return_chart(target_df_with_index, title = "Third Chart", showlegend = False)
     fig4 = normalized_index_chart(target_df_with_index, title = "Fourth Chart", showlegend = False)
     fig5 = correlation_heatmap(target_df_without_index, title = "Fith Chart", showlegend = False)

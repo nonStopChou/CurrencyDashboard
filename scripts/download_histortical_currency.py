@@ -8,7 +8,7 @@ from src.currency.config.config import (
 )
 
 from src.currency.utils.io_utils import save_rawdata, create_folder_if_not_exist
-from src.currency.utils.time_utils import get_file_name
+from src.currency.utils.time_utils import get_file_name, string_to_date
 from src.currency.api.fetch_currency import fetch_history_currency
 
 
@@ -22,20 +22,23 @@ def init_folder():
 def main():
 
     parser = argparse.ArgumentParser(description="Get historical currency")
-    parser.add_argument("--base_currency", choices=["USD", "AUS", "CNY", "TWD"], help="Currency details can be found in https://www.exchangerate-api.com/docs/supported-currencies", default=TARGET_CURRENCY)
+    parser.add_argument("--base_currency", help="Currency details can be found in https://www.exchangerate-api.com/docs/supported-currencies", default=TARGET_CURRENCY)
     parser.add_argument("--start_date", help="with format YYYY/MM/DD")
     parser.add_argument("--end_date", help="with format YYYY/MM/DD")
     args = parser.parse_args()
 
     init_folder()
 
-    if not args.start_date or not args.end_date:
+    start_date = string_to_date(args.start_date)
+    end_date = string_to_date(args.end_date)
+    if not start_date or not end_date:
         print("Start Date and End Date must be set.")
         return 
     
-    diff_day = (args.end_date - args.start_date).days
 
-    current_date = args.start_date
+    diff_day = (end_date - start_date).days
+
+    current_date = start_date
     
     base_currency = args.base_currency.upper()
 

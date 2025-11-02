@@ -31,7 +31,7 @@ def main():
     source_path = f"./{BASE_DIR}/{RAW_DATA_DIR}/{args.source}/{base_currency}"
     output_file_path = f"./{BASE_DIR}/{DATASET_DIR}/{base_currency}/{args.output}.xlsx"
 
-    build_dataset(base_currency=base_currency, source=args.source, source_path=source_path, output_path=output_file_path)
+    build_dataset(source=args.source, source_path=source_path, output_path=output_file_path)
 
 if __name__ == "__main__":
     main()
